@@ -1,4 +1,4 @@
 #!/bin/bash
+# Ben Fasoli
 
-/usr/bin/screen -S teledyne-t400 -dm /home/uataq/air-watch/log/src/teledyne-t400.py
-
+/usr/bin/screen -S teledyne-t400 -dm /home/uataq/air-trend/log/src/teledyne-t400.py

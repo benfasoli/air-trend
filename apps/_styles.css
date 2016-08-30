@@ -1,0 +1,44 @@
+/* header link styling */
+.blklink a:link,
+.blklink a:visited,
+.blklink a:hover,
+.blklink a:active {
+  color: rgb(68, 68, 68);
+}
+
+/* 100% height div */
+div.tall {
+  height: 75vh;
+}
+
+/* input group sizing */
+.input-group-addon {
+    min-width: 53px;
+    text-align: middle;
+}
+
+
+/* link color */
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #c3252c;
+}
+
+
+/* hide on mobile browsers */
+.mobileHide {
+  display: inline;
+}
+@media only screen
+and (max-device-width: 480px) {
+  .mobileHide { display: none; }
+}
+.mobileShow {
+  display: none;
+}
+@media only screen
+and (max-device-width: 480px) {
+  .mobileShow { display: inline; }
+}

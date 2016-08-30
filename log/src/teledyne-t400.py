@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # Ben Fasoli
+
 import datetime
 import os
 import serial as ser
@@ -34,7 +35,7 @@ class serialDevice:
 if __name__ == '__main__':
     device = '/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT0EG25Q-if00-port0'
     baud   = 115200
-    loc    = '/home/uataq/air-watch/log/data/teledyne-t400/'
+    loc    = '/home/uataq/air-trend/log/data/teledyne-t400/'
     name   = '%Y_%m_%d.dat'
     dev = serialDevice(device, baud, loc, name)
     while True:
