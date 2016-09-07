@@ -24,7 +24,7 @@ function(input, output, session) {
       .$O3_stabil_ppb %>%
       round(2) %>%
       paste('[ppb]') %>%
-      valueBox(subtitle = HTML('Measurement Stability'),
+      valueBox(subtitle = HTML('Standard Deviation'),
                color = 'green', icon = icon('line-chart'))
   })
   
@@ -32,9 +32,9 @@ function(input, output, session) {
     reader[[meas]]() %>%
       tail(1) %>%
       .$O3_flow_ccm %>%
-      round(2) %>%
+      round(1) %>%
       paste('[cc/m]') %>%
-      valueBox(subtitle = HTML('Flow Rate'),
+      valueBox(subtitle = HTML('Sample Flow Rate'),
                color = 'orange', icon = icon('tachometer'))
   })
   

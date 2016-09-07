@@ -15,7 +15,7 @@ body <- dashboardBody(
            ),
            box(width = NULL, status = 'danger',
                plotlyOutput('ts', height = 280)
-           )   
+           )
     )
   )
 )
