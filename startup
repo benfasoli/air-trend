@@ -2,3 +2,4 @@
 # Ben Fasoli
 
 /usr/bin/screen -S teledyne-t400 -dm /home/uataq/air-trend/log/src/teledyne-t400.py
+/usr/bin/screen -S teom-1400ab -dm /home/uataq/air-trend/log/src/teom-1400ab.py
