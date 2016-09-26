@@ -24,7 +24,7 @@ function(input, output, session) {
       .$O3_stabil_ppb %>%
       round(2) %>%
       paste('[ppb]') %>%
-      valueBox(subtitle = HTML('Standard Deviation'),
+      valueBox(subtitle = HTML('O<sub>3</sub> Standard Deviation'),
                color = 'green', icon = icon('line-chart'))
   })
   
