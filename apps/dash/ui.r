@@ -7,8 +7,8 @@ body <- dashboardBody(
   fluidRow(
     column(12,
            fluidRow(
-             column(3, valueBoxOutput('value_O3_ppb', width = NULL)),
-             column(3, valueBoxOutput('value_PM25_ugm3', width = NULL))#,
+             column(3, valueBoxOutput('value_PM25_ugm3', width = NULL)),
+             column(3, valueBoxOutput('value_O3_ppb', width = NULL))#,
              # column(3, valueBoxOutput('y', width = NULL)),
              # column(3, valueBoxOutput('z', width = NULL))
            ),
