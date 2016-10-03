@@ -20,7 +20,7 @@ function(input, output, session) {
       tail(1) %>%
       .$PM25_ugm3 %>%
       round(1) %>%
-      paste('&#956g m<sup>-3</sup>') %>%
+      paste('ug m<sup>-3</sup>') %>%
       HTML() %>%
       valueBox(subtitle = HTML('Particulate Matter (PM<sub>2.5</sub>)'),
                color = 'orange', icon = icon('car'), href = '/dash/')
