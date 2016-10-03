@@ -8,7 +8,16 @@
 
 /* 100% height div */
 div.tall {
-  height: 75vh;
+  height: 70vh;
+}
+
+/* sidebar footer */
+div.sidefoot {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 /* input group sizing */
@@ -17,6 +26,10 @@ div.tall {
     text-align: middle;
 }
 
+/* shinydashboard background color */
+.content-wrapper, .right-side {
+  background-color: #eaeaea;
+}
 
 /* link color */
 a:link,
