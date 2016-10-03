@@ -15,25 +15,27 @@ function(input, output, session) {
   source('../_reader.r', local = T)
   
   # Value Boxes ----------------------------------------------------------------
-  output$value_O3_ppb <- renderValueBox({
-    reader[['O3_ppb']]() %>%
-      tail(1) %>%
-      .$O3_ppb %>%
-      round(2) %>%
-      paste('[ppb]') %>%
-      valueBox(subtitle = HTML('Ozone (O<sub>3</sub>)'),
-               color = 'blue', icon = icon('sun-o'), href = '/teledyne-t400/')
-  })
-  
   output$value_PM25_ugm3 <- renderValueBox({
     reader[['PM25_ugm3']]() %>%
       tail(1) %>%
       .$PM25_ugm3 %>%
       round(1) %>%
-      paste('[ugm-3]') %>%
+      paste('&#956g m<sup>-3</sup>') %>%
+      HTML() %>%
       valueBox(subtitle = HTML('Particulate Matter (PM<sub>2.5</sub>)'),
                color = 'orange', icon = icon('car'), href = '/dash/')
   })
+  
+  output$value_O3_ppb <- renderValueBox({
+    reader[['O3_ppb']]() %>%
+      tail(1) %>%
+      .$O3_ppb %>%
+      round(2) %>%
+      paste('ppb') %>%
+      valueBox(subtitle = HTML('Ozone (O<sub>3</sub>)'),
+               color = 'blue', icon = icon('sun-o'), href = '/teledyne-t400/')
+  })
+  
   
   # Timeseries -----------------------------------------------------------------
   output$ts <- renderPlotly({
@@ -50,9 +52,9 @@ function(input, output, session) {
                 hoverinfo = 'x+y', fill = 'tozeroy') %>%
       layout(
         showlegend = FALSE,
-        xaxis = list(title = ''),
-        yaxis = list(anchor = 'x', domain = c(0.51, 0.74), title = 'Ozone [ppb]'),
-        yaxis2 = list(anchor = 'x', domain = c(0.76, 1), title = 'PM2.5 [ugm-3]')
+        xaxis = list(title = '', showgrid = F),
+        yaxis = list(anchor = 'x', domain = c(0, 0.49), title = 'Ozone [ppb]'),
+        yaxis2 = list(anchor = 'x', domain = c(0.51, 1), title = 'PM2.5 [ugm-3]')
       )
   })
   

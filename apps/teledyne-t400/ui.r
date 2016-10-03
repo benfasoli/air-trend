@@ -14,7 +14,8 @@ body <- dashboardBody(
                column(3, valueBoxOutput('value_O3_flow_ccm', width = NULL)),
                column(3, valueBoxOutput('value_O3_pres_inhg', width = NULL))
              ),
-             box(width = NULL, status = 'danger',
+             box(title = 'Teledyne T400',
+                 width = NULL, status = 'danger',
                  div(class = 'tall',
                      plotlyOutput('ts', height = '100%')
                  )

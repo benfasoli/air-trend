@@ -13,7 +13,7 @@ function(input, output, session) {
       tail(1) %>%
       .$O3_ppb %>%
       round(2) %>%
-      paste('[ppb]') %>%
+      paste('ppb') %>%
     valueBox(subtitle = HTML('Ozone (O<sub>3</sub>) Concentration'),
              color = 'red', icon = icon('cloud'))
   })
@@ -23,7 +23,7 @@ function(input, output, session) {
       tail(1) %>%
       .$O3_stabil_ppb %>%
       round(2) %>%
-      paste('[ppb]') %>%
+      paste('ppb') %>%
       valueBox(subtitle = HTML('O<sub>3</sub> Standard Deviation'),
                color = 'green', icon = icon('line-chart'))
   })
@@ -33,7 +33,7 @@ function(input, output, session) {
       tail(1) %>%
       .$O3_flow_ccm %>%
       round(1) %>%
-      paste('[cc/m]') %>%
+      paste('cc/m') %>%
       valueBox(subtitle = HTML('Sample Flow Rate'),
                color = 'orange', icon = icon('tachometer'))
   })
@@ -43,7 +43,7 @@ function(input, output, session) {
       tail(1) %>%
       .$O3_pres_inhg %>%
       round(2) %>%
-      paste('[inHg]') %>%
+      paste('inHg') %>%
       valueBox(subtitle = HTML('Cavity Pressure'),
                color = 'blue', icon = icon('wrench'))
   })
@@ -61,7 +61,7 @@ function(input, output, session) {
                 hoverinfo = 'x+y', fill = 'tozeroy') %>%
       layout(
         showlegend = FALSE,
-        xaxis = list(title = ''),
+        xaxis = list(title = '', showgrid = F),
         yaxis = list(anchor = 'x', domain = c(0, 0.24), title = 'Pressure \n [inHg]'),
         yaxis2 = list(anchor = 'x', domain = c(0.26, 0.49), title = 'Flow \n [cc/m]'),
         yaxis3 = list(anchor = 'x', domain = c(0.51, 0.74), title = 'Stability \n [ppb]'),
