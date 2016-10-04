@@ -21,6 +21,8 @@ sidebar <- dashboardSidebar(
     shiny::br(),
     menuItem('Teledyne T400', icon = icon('th'),
              href = '/teledyne-t400', newtab = F),
+    menuItem('Intel NUC', icon = icon('desktop'),
+             href = '/intel-nuc', newtab = F),
     shiny::br(),
     menuItem('Web home', icon = icon('globe'),
              href = 'http://air.utah.edu', newtab = F),
