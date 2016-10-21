@@ -1,5 +1,5 @@
 # Ben Fasoli
-source('../_libraries.r')
+source('../_global.r')
 source('../_style_setup.r')
 
 body <- dashboardBody(

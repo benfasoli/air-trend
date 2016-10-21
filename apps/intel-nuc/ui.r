@@ -1,5 +1,5 @@
 # Ben Fasoli
-source('../_libraries.r')
+source('../_global.r')
 source('../_style_setup.r')
 
 body <- dashboardBody(
@@ -13,9 +13,13 @@ body <- dashboardBody(
            )
     )
   ),
-  box(title = 'Active Logging',
-      width = 6, status = 'danger',
-          tableOutput('screen_list')
+  fluidRow(
+    column(4,
+           box(title = 'Active Logging',
+               width = NULL, status = 'danger',
+               tableOutput('screen_list')
+           )
+           )
   )
 )
 
