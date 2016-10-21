@@ -1,15 +1,5 @@
 # Ben Fasoli
-source('../_libraries.r')
-source('../_constants.r')
-
-plot_build <- function(df, meas) {
-  plot_ly(data = df, x = Time, y = df[[meas]],
-          hoverinfo = 'x+y', fill = 'tozeroy') %>%
-    layout(
-      xaxis = list(title = ''),
-      yaxis = list(title = meas)
-    )
-}
+source('../_global.r')
 
 function(input, output, session) {
   source('../_reader.r', local = T)
@@ -23,7 +13,7 @@ function(input, output, session) {
       paste('ug m<sup>-3</sup>') %>%
       HTML() %>%
       valueBox(subtitle = HTML('Particulate Matter (PM<sub>2.5</sub>)'),
-               color = 'orange', icon = icon('car'), href = '/dash/')
+               color = 'red', icon = icon('car'), href = '/dash/')
   })
   
   output$value_O3_ppb <- renderValueBox({
@@ -33,29 +23,20 @@ function(input, output, session) {
       round(2) %>%
       paste('ppb') %>%
       valueBox(subtitle = HTML('Ozone (O<sub>3</sub>)'),
-               color = 'blue', icon = icon('sun-o'), href = '/teledyne-t400/')
+               color = 'green', icon = icon('sun-o'), href = '/teledyne-t400/')
   })
   
   
   # Timeseries -----------------------------------------------------------------
   output$ts <- renderPlotly({
-    meas <- 'O3_ppb'
-    df <- reader[[meas]]()
-    plot_build(df, meas)
-    
-    O3_ppb <- reader[['O3_ppb']]()
     PM25_ugm3 <- reader[['PM25_ugm3']]()
+    O3_ppb <- reader[['O3_ppb']]()
+    df <- bind_rows(PM25_ugm3, O3_ppb) %>%
+      select(Time, PM25_ugm3, O3_ppb)
     
-    plot_ly(data = O3_ppb, x = Time, y = O3_ppb, yaxis = 'y1',
-            hoverinfo = 'x+y', fill = 'tozeroy') %>%
-      add_trace(data = PM25_ugm3, x = Time, y = PM25_ugm3, yaxis = 'y2',
-                hoverinfo = 'x+y', fill = 'tozeroy') %>%
-      layout(
-        showlegend = FALSE,
-        xaxis = list(title = '', showgrid = F),
-        yaxis = list(anchor = 'x', domain = c(0, 0.49), title = 'Ozone [ppb]'),
-        yaxis2 = list(anchor = 'x', domain = c(0.51, 1), title = 'PM2.5 [ugm-3]')
+    make_subplot(df) %>%
+      layout(yaxis = list(title = 'PM2.5\n[ugm-3]'),
+             yaxis2 = list(title = 'Ozone\n[ppb]')
       )
   })
-  
 }

@@ -1,6 +1,5 @@
 # Ben Fasoli
-source('../_libraries.r')
-source('../_constants.r')
+source('../_global.r')
 
 meas <- 'O3_ppb'
 
@@ -14,8 +13,8 @@ function(input, output, session) {
       .$O3_ppb %>%
       round(2) %>%
       paste('ppb') %>%
-    valueBox(subtitle = HTML('Ozone (O<sub>3</sub>) Concentration'),
-             color = 'red', icon = icon('cloud'))
+      valueBox(subtitle = HTML('Ozone (O<sub>3</sub>) Concentration'),
+               color = 'red', icon = icon('cloud'))
   })
   
   output$value_O3_stabil_ppb <- renderValueBox({
@@ -51,21 +50,13 @@ function(input, output, session) {
   # Timeseries -----------------------------------------------------------------
   output$ts <- renderPlotly({
     df <- reader[[meas]]()
-    plot_ly(data = df, x = Time, y = O3_pres_inhg, yaxis = 'y1',
-            hoverinfo = 'x+y', fill = 'tozeroy') %>%
-      add_trace(x = Time, y = O3_flow_ccm, yaxis = 'y2',
-                hoverinfo = 'x+y', fill = 'tozeroy') %>%
-      add_trace(x = Time, y = O3_stabil_ppb, yaxis = 'y3',
-                hoverinfo = 'x+y', fill = 'tozeroy') %>%
-      add_trace(x = Time, y = O3_ppb, yaxis = 'y4',
-                hoverinfo = 'x+y', fill = 'tozeroy') %>%
+    
+    make_subplot(df) %>%
       layout(
-        showlegend = FALSE,
-        xaxis = list(title = '', showgrid = F),
-        yaxis = list(anchor = 'x', domain = c(0, 0.24), title = 'Pressure \n [inHg]'),
-        yaxis2 = list(anchor = 'x', domain = c(0.26, 0.49), title = 'Flow \n [cc/m]'),
-        yaxis3 = list(anchor = 'x', domain = c(0.51, 0.74), title = 'Stability \n [ppb]'),
-        yaxis4 = list(anchor = 'x', domain = c(0.76, 1), title = 'O3 \n [ppb]')
+        yaxis = list(title = 'O3\n[ppb]'),
+        yaxis2 = list(title = 'Stability\n[ppb]'),
+        yaxis3 = list(title = 'Flow\n[cc/m]'),
+        yaxis4 = list(title = 'Pressure\n[inHg]')
       )
   })
 }
