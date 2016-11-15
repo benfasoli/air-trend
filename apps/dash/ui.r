@@ -12,7 +12,7 @@ body <- dashboardBody(
              # column(3, valueBoxOutput('z', width = NULL)),
              # column(3, valueBoxOutput('z', width = NULL))
            ),
-           box(title = 'UATAQ Home', 
+           box(title = 'UATAQ Home',
                width = NULL, status = 'danger',
                div(class = 'tall',
                    plotlyOutput('ts', height = '100%')
