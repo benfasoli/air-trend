@@ -25,6 +25,8 @@ sidebar <- dashboardSidebar(
     menuItem('Dashboard', icon = icon('area-chart'),
              href = '/dash/', newtab = F),
     shiny::br(),
+    menuItem('Teledyne T200', icon = icon('th'),
+             href = '/teledyne-t200', newtab = F),
     menuItem('Teledyne T400', icon = icon('th'),
              href = '/teledyne-t400', newtab = F),
     menuItem('Intel NUC', icon = icon('desktop'),

@@ -3,6 +3,24 @@
 reader <- list()
 
 
+reader$NOX_ppb <- reactiveFileReader(
+  intervalMillis = 1000, session = session,
+  filePath = '/home/uataq/air-trend/log/data/teledyne-t200' %>%
+    dir(full.names = T) %>%
+    tail(1),
+  readFunc = function(path) {
+    '/home/uataq/air-trend/log/data/teledyne-t200' %>%
+      dir(full.names = T) %>%
+      tail(5) %>%
+      lapply(read_csv,
+             locale = locale(tz = 'UTC'),
+             col_types = 'T_____ddddd',
+             col_names = c('Time', 'NOX_ppb', 'NO_ppb', 'NO2_ppb',
+                           'NOX_flow_ccm', 'NOX_pres_inhg')) %>%
+      bind_rows()
+  })
+
+
 reader$O3_ppb <- reactiveFileReader(
   intervalMillis = 1000, session = session,
   filePath = '/home/uataq/air-trend/log/data/teledyne-t400' %>%
