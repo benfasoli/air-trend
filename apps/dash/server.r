@@ -58,7 +58,7 @@ function(input, output, session) {
 
     make_subplot(df) %>%
       layout(yaxis = list(title = 'PM2.5\n[ugm-3]'),
-             yaxis2 = list(title = 'Ozone\n[ppb]'),
+             yaxis2 = list(title = 'O3\n[ppb]'),
              yaxis3 = list(title = 'NO\n[ppb]'),
              yaxis4 = list(title = 'NO2\n[ppb]')
       )
