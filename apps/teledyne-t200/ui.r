@@ -7,11 +7,11 @@ body <- dashboardBody(
   fluidRow(
     column(12,
            fluidRow(
-             column(2, valueBoxOutput('value_NOX_ppb', width = NULL)),
-             column(2, valueBoxOutput('value_NO_ppb', width = NULL)),
-             column(2, valueBoxOutput('value_NO2_ppb', width = NULL)),
-             column(2, valueBoxOutput('value_NOX_flow_ccm', width = NULL)),
-             column(2, valueBoxOutput('value_NOX_pres_inhg', width = NULL))
+             column(2, valueBoxOutput('value_1', width = NULL)),
+             column(2, valueBoxOutput('value_2', width = NULL)),
+             column(2, valueBoxOutput('value_3', width = NULL)),
+             column(2, valueBoxOutput('value_4', width = NULL)),
+             column(2, valueBoxOutput('value_5', width = NULL))
            ),
            box(title = 'Teledyne T200',
                width = NULL, status = 'danger',

@@ -1,13 +1,13 @@
 # Ben Fasoli
 source('../_global.r')
 
-meas <- 'NOX_ppb'
+meas <- 'teledyne-t200'
 
 function(input, output, session) {
   source('../_reader.r', local = T)
 
   # Value Boxes ----------------------------------------------------------------
-  output$value_NOX_ppb <- renderValueBox({
+  output$value_1 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$NOX_ppb %>%
@@ -17,7 +17,7 @@ function(input, output, session) {
                color = 'red', icon = icon('cloud'))
   })
 
-  output$value_NO_ppb <- renderValueBox({
+  output$value_2 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$NO_ppb %>%
@@ -27,7 +27,7 @@ function(input, output, session) {
                color = 'green', icon = icon('cloud'))
   })
 
-  output$value_NO2_ppb <- renderValueBox({
+  output$value_3 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$NO2_ppb %>%
@@ -37,7 +37,7 @@ function(input, output, session) {
                color = 'orange', icon = icon('cloud'))
   })
 
-  output$value_NOX_flow_ccm <- renderValueBox({
+  output$value_4 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$NOX_flow_ccm %>%
@@ -47,7 +47,7 @@ function(input, output, session) {
                color = 'blue', icon = icon('tachometer'))
   })
 
-  output$value_NOX_pres_inhg <- renderValueBox({
+  output$value_5 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$NOX_pres_inhg %>%

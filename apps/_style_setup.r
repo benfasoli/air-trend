@@ -25,8 +25,10 @@ sidebar <- dashboardSidebar(
     menuItem('Dashboard', icon = icon('area-chart'),
              href = '/dash/', newtab = F),
     shiny::br(),
-    menuItem('Teledyne T200', icon = icon('th'),
-             href = '/teledyne-t200', newtab = F),
+    menuItem('MetOne ES642', icon = icon('th'),
+             href = '/metone-es642', newtab = F),
+    # menuItem('Teledyne T200', icon = icon('th'),
+    #          href = '/teledyne-t200', newtab = F),
     menuItem('Teledyne T400', icon = icon('th'),
              href = '/teledyne-t400', newtab = F),
     menuItem('Intel NUC', icon = icon('desktop'),
@@ -45,5 +47,6 @@ sidebar <- dashboardSidebar(
 includeStyle <- tagList(
   includeHTML('../_header.html'),
   includeCSS('../_styles.css'),
-  tags$head(HTML('<meta http-equiv="refresh" content="18000">'))
+  tags$head(HTML('<meta http-equiv="refresh" content="18000">')),
+  tags$style(type='text/css', '.recalculating {opacity: 1.0;}')
 )

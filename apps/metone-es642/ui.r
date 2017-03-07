@@ -12,7 +12,7 @@ body <- dashboardBody(
              column(3, valueBoxOutput('value_3', width = NULL)),
              column(3, valueBoxOutput('value_4', width = NULL))
            ),
-           box(title = 'Teledyne T400',
+           box(title = 'MetOne ES642',
                width = NULL, status = 'danger',
                div(class = 'tall',
                    plotlyOutput('ts', height = '100%')
@@ -22,5 +22,5 @@ body <- dashboardBody(
   )
 )
 
-dashboardPage(title = 'Teledyne T400', skin = 'black',
+dashboardPage(title = 'MetOne ES642', skin = 'black',
               header, sidebar, body)

@@ -5,8 +5,8 @@ function(input, output, session) {
   source('../_reader.r', local = T)
 
   # Value Boxes ----------------------------------------------------------------
-  output$value_PM25_ugm3 <- renderValueBox({
-    reader[['PM25_ugm3']]() %>%
+  output$value_1 <- renderValueBox({
+    reader[['metone-es642']]() %>%
       tail(1) %>%
       .$PM25_ugm3 %>%
       round(1) %>%
@@ -16,8 +16,8 @@ function(input, output, session) {
                color = 'red', icon = icon('cloud'), href = NULL)
   })
 
-  output$value_O3_ppb <- renderValueBox({
-    reader[['O3_ppb']]() %>%
+  output$value_2 <- renderValueBox({
+    reader[['teledyne-t400']]() %>%
       tail(1) %>%
       .$O3_ppb %>%
       round(2) %>%
@@ -26,41 +26,16 @@ function(input, output, session) {
                color = 'green', icon = icon('sun-o'), href = '/teledyne-t400/')
   })
 
-  output$value_NO_ppb <- renderValueBox({
-    reader[['NOX_ppb']]() %>%
-      tail(1) %>%
-      .$NO_ppb %>%
-      round(2) %>%
-      paste('ppb') %>%
-      valueBox(subtitle = HTML('Nitrogen Monoxide (NO)'),
-               color = 'yellow', icon = icon('car'), href = '/teledyne-t200/')
-  })
-
-  output$value_NO2_ppb <- renderValueBox({
-    reader[['NOX_ppb']]() %>%
-      tail(1) %>%
-      .$NO2_ppb %>%
-      round(2) %>%
-      paste('ppb') %>%
-      valueBox(subtitle = HTML('Nitrogen Dioxide (NO<sub>2</sub>)'),
-               color = 'blue', icon = icon('car'), href = '/teledyne-t200/')
-  })
-
 
   # Timeseries -----------------------------------------------------------------
   output$ts <- renderPlotly({
-    PM25_ugm3 <- reader[['PM25_ugm3']]()
-    O3_ppb <- reader[['O3_ppb']]()
-    NOX_ppb <- reader[['NOX_ppb']]()
-
-    df <- bind_rows(PM25_ugm3, O3_ppb, NOX_ppb) %>%
-      select(Time, PM25_ugm3, O3_ppb, NO_ppb, NO2_ppb)
+    df <- bind_rows(reader[['metone-es642']](),
+                    reader[['teledyne-t400']]()) %>%
+      select(Time, PM25_ugm3, O3_ppb)
 
     make_subplot(df) %>%
       layout(yaxis = list(title = 'PM2.5\n[ugm-3]'),
-             yaxis2 = list(title = 'O3\n[ppb]'),
-             yaxis3 = list(title = 'NO\n[ppb]'),
-             yaxis4 = list(title = 'NO2\n[ppb]')
+             yaxis2 = list(title = 'O3\n[ppb]')
       )
   })
 }

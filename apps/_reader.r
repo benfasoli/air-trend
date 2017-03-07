@@ -2,8 +2,26 @@
 
 reader <- list()
 
+reader$`metone-es642` <- reactiveFileReader(
+  intervalMillis = 1000, session = session,
+  filePath = '/home/uataq/air-trend/log/data/metone-es642' %>%
+    dir(full.names = T) %>%
+    tail(1),
+  readFunc = function(path) {
+    '/home/uataq/air-trend/log/data/metone-es642' %>%
+      dir(full.names = T) %>%
+      tail(5) %>%
+      lapply(read_csv,
+             locale = locale(tz = 'UTC'),
+             col_types = 'Tddddd__',
+             col_names = c('Time', 'PM25_ugm3', 'PM25_flow_lpm', 'PM25_temp_c',
+                           'PM25_rh_pct', 'PM25_pres_hpa')) %>%
+      bind_rows() %>%
+      mutate(PM25_ugm3 = PM25_ugm3 * 1000)
+  })
 
-reader$NOX_ppb <- reactiveFileReader(
+
+reader$`teledyne-t200` <- reactiveFileReader(
   intervalMillis = 1000, session = session,
   filePath = '/home/uataq/air-trend/log/data/teledyne-t200' %>%
     dir(full.names = T) %>%
@@ -21,7 +39,7 @@ reader$NOX_ppb <- reactiveFileReader(
   })
 
 
-reader$O3_ppb <- reactiveFileReader(
+reader$`teledyne-t400` <- reactiveFileReader(
   intervalMillis = 1000, session = session,
   filePath = '/home/uataq/air-trend/log/data/teledyne-t400' %>%
     dir(full.names = T) %>%
@@ -39,7 +57,7 @@ reader$O3_ppb <- reactiveFileReader(
   })
 
 
-reader$PM25_ugm3 <- reactiveFileReader(
+reader$`teom-1400ab` <- reactiveFileReader(
   intervalMillis = 1000, session = session,
   filePath = '/home/uataq/air-trend/log/data/teom-1400ab' %>%
     dir(full.names = T) %>%

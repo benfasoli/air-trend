@@ -1,13 +1,13 @@
 # Ben Fasoli
 source('../_global.r')
 
-meas <- 'O3_ppb'
+meas <- 'teledyne-t400'
 
 function(input, output, session) {
   source('../_reader.r', local = T)
   
   # Value Boxes ----------------------------------------------------------------
-  output$value_O3_ppb <- renderValueBox({
+  output$value_1 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$O3_ppb %>%
@@ -17,7 +17,7 @@ function(input, output, session) {
                color = 'red', icon = icon('cloud'))
   })
   
-  output$value_O3_stabil_ppb <- renderValueBox({
+  output$value_2 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$O3_stabil_ppb %>%
@@ -27,7 +27,7 @@ function(input, output, session) {
                color = 'green', icon = icon('line-chart'))
   })
   
-  output$value_O3_flow_ccm <- renderValueBox({
+  output$value_3 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$O3_flow_ccm %>%
@@ -37,7 +37,7 @@ function(input, output, session) {
                color = 'orange', icon = icon('tachometer'))
   })
   
-  output$value_O3_pres_inhg<- renderValueBox({
+  output$value_4 <- renderValueBox({
     reader[[meas]]() %>%
       tail(1) %>%
       .$O3_pres_inhg %>%
