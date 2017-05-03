@@ -6,6 +6,9 @@ meas <- 'metone-es642'
 function(input, output, session) {
   source('../_reader.r', local = T)
   
+  showNotification(paste('Data displayed as minute averages but recorded at',
+                          'a 1-s frequency'), duration = 10)
+  
   # Value Boxes ----------------------------------------------------------------
   output$value_1 <- renderValueBox({
     reader[[meas]]() %>%
@@ -52,6 +55,7 @@ function(input, output, session) {
   # Timeseries -----------------------------------------------------------------
   output$ts <- renderPlotly({
     df <- reader[[meas]]()
+    saveRDS(df, '~/test.rds')
     
     make_subplot(df) %>%
       layout(

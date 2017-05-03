@@ -13,7 +13,7 @@ function(input, output, session) {
       paste('ug m<sup>-3</sup>') %>%
       HTML() %>%
       valueBox(subtitle = HTML('Particulate Matter (PM<sub>2.5</sub>)'),
-               color = 'red', icon = icon('cloud'), href = NULL)
+               color = 'red', icon = icon('car'), href = '/metone-es642/')
   })
 
   output$value_2 <- renderValueBox({
@@ -26,16 +26,28 @@ function(input, output, session) {
                color = 'green', icon = icon('sun-o'), href = '/teledyne-t400/')
   })
 
+  output$value_3 <- renderValueBox({
+    reader[['teledyne-t300']]() %>%
+      tail(1) %>%
+      .$CO_ppb %>%
+      round(2) %>%
+      paste('ppb') %>%
+      valueBox(subtitle = HTML('Carbon Monoxide (CO)'),
+               color = 'yellow', icon = icon('cloud'), href = '/teledyne-t300/')
+  })
+
 
   # Timeseries -----------------------------------------------------------------
   output$ts <- renderPlotly({
     df <- bind_rows(reader[['metone-es642']](),
-                    reader[['teledyne-t400']]()) %>%
-      select(Time, PM25_ugm3, O3_ppb)
+                    reader[['teledyne-t400']](),
+                    reader[['teledyne-t300']]()) %>%
+      select(Time, PM25_ugm3, O3_ppb, CO_ppb)
 
     make_subplot(df) %>%
       layout(yaxis = list(title = 'PM2.5\n[ugm-3]'),
-             yaxis2 = list(title = 'O3\n[ppb]')
+             yaxis2 = list(title = 'O3\n[ppb]',
+             yaxis3 = list(title = 'CO\n[ppb]'))
       )
   })
 }

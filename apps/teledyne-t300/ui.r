@@ -9,9 +9,10 @@ body <- dashboardBody(
            fluidRow(
              column(3, valueBoxOutput('value_1', width = NULL)),
              column(3, valueBoxOutput('value_2', width = NULL)),
-             column(3, valueBoxOutput('value_3', width = NULL))
+             column(3, valueBoxOutput('value_3', width = NULL)),
+             column(3, valueBoxOutput('value_4', width = NULL))
            ),
-           box(title = 'UATAQ Home',
+           box(title = 'Teledyne T300',
                width = NULL, status = 'danger',
                div(class = 'tall',
                    plotlyOutput('ts', height = '100%')
@@ -21,5 +22,5 @@ body <- dashboardBody(
   )
 )
 
-dashboardPage(title = 'Dashboard Home', skin = 'black',
+dashboardPage(title = 'Teledyne T300', skin = 'black',
               header, sidebar, body)
