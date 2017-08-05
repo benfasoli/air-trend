@@ -36,6 +36,8 @@ sidebar <- dashboardSidebar(
     shiny::br(),
     menuItem('Web home', icon = icon('globe'),
              href = 'http://air.utah.edu', newtab = F),
+    menuItem('DAQ trends', icon = icon('th'),
+             href = 'http://air.utah.gov/trendcharts.php?id=slc', newtab = T),
     menuItem('Site status', icon = icon('bar-chart'),
              href = 'http://air.utah.edu/status.html', newtab = F),
     menuItem('Sign in', icon = icon('lock'),
