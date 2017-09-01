@@ -27,6 +27,8 @@ sidebar <- dashboardSidebar(
     shiny::br(),
     menuItem('MetOne ES642', icon = icon('th'),
              href = '/metone-es642', newtab = F),
+    menuItem('Teledyne T200', icon = icon('th'),
+             href = '/teledyne-t200', newtab = F),
     menuItem('Teledyne T300', icon = icon('th'),
              href = '/teledyne-t300', newtab = F),
     menuItem('Teledyne T400', icon = icon('th'),

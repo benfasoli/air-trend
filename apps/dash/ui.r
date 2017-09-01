@@ -11,6 +11,11 @@ body <- dashboardBody(
              column(3, valueBoxOutput('value_2', width = NULL)),
              column(3, valueBoxOutput('value_3', width = NULL))
            ),
+           fluidRow(
+             column(3, valueBoxOutput('value_4', width = NULL)),
+             column(3, valueBoxOutput('value_5', width = NULL)),
+             column(3, valueBoxOutput('value_6', width = NULL))
+           ),
            box(title = 'UATAQ Home',
                width = NULL, status = 'danger',
                div(class = 'tall',

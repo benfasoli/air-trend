@@ -33,7 +33,7 @@ class serialDevice:
         self.s.close()
 
 if __name__ == '__main__':
-    device = '/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT0EG25Q-if02-port0'
+    device = '/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT0EG25Q-if03-port0'
     baud   = 115200
     loc    = '/home/uataq/air-trend/log/data/teledyne-t200/'
     name   = '%Y_%m_%d.dat'
