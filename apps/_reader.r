@@ -17,6 +17,7 @@ reader$`metone-es642` <- reactiveFileReader(
              col_names = c('Time', 'PM25_ugm3', 'PM25_flow_lpm', 'PM25_temp_c',
                            'PM25_rh_pct', 'PM25_pres_hpa')) %>%
       bind_rows() %>%
+      filter(Time > Sys.time() - 5*86400) %>%
       mutate(PM25_ugm3 = PM25_ugm3 * 1000) %>%
       group_by(Time = trunc(Time, units = 'mins') %>% as.POSIXct()) %>%
       summarize_all(funs(mean(., na.rm = T)))
@@ -37,7 +38,8 @@ reader$`teledyne-t200` <- reactiveFileReader(
              col_types = 'T_____ddddd',
              col_names = c('Time', 'NOX_ppb', 'NO_ppb', 'NO2_ppb',
                            'NOX_flow_ccm', 'NOX_pres_inhg')) %>%
-      bind_rows()
+      bind_rows() %>%
+      filter(Time > Sys.time() - 5*86400)
   })
 
 
@@ -55,7 +57,8 @@ reader$`teledyne-t300` <- reactiveFileReader(
              col_types = 'T_____dddd',
              col_names = c('Time', 'CO_ppb', 'CO_stabil_ppb',
                            'CO_flow_ccm', 'CO_pres_inhg')) %>%
-      bind_rows()
+      bind_rows() %>%
+      filter(Time > Sys.time() - 5*86400)
   })
 
 
@@ -73,7 +76,8 @@ reader$`teledyne-t400` <- reactiveFileReader(
              col_types = 'T_____dddd',
              col_names = c('Time', 'O3_ppb', 'O3_stabil_ppb',
                            'O3_flow_ccm', 'O3_pres_inhg')) %>%
-      bind_rows()
+      bind_rows() %>%
+      filter(Time > Sys.time() - 5*86400)
   })
 
 
@@ -90,5 +94,6 @@ reader$`teom-1400ab` <- reactiveFileReader(
              locale = locale(tz = 'UTC'),
              col_types = 'Td__',
              col_names = c('Time', 'PM25_ugm3')) %>%
-      bind_rows()
+      bind_rows() %>%
+      filter(Time > Sys.time() - 5*86400)
   })
