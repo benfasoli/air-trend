@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  devices:
+    build: ./devices/
+    environment:
+      - DATAPATH=/data
+      - LOGLEVEL=WARNING
+    privileged: true
+    restart: always
+    volumes:
+      - ./config.json:/src/config.json:ro
+      - /dev/serial:/dev/serial
+      - /home/pi/data:/data
+      
