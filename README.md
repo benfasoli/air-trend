@@ -21,24 +21,28 @@ For Raspberry Pi OS systems, you can install the relevant dependencies as follow
 ```bash
 # Update package index and install dependencies
 sudo apt update -y
-sudo apt install \
+sudo apt install -y \
   apt-transport-https \
   ca-certificates \
   curl \
   git \
   gnupg-agent \
+  python3 \
+  python3-pip \
   software-properties-common
 
 # Install docker
 curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
 sudo sh /tmp/get-docker.sh
 
+# Add the pi user to the docker group
+sudo usermod -aG docker pi
+
 # Install docker-compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+sudo pip3 install docker-compose
 ```
 
-Once the dependencies are installed, the next step is to clone this repository.
+Once the dependencies are installed, restart the system. The next step is to clone this repository.
 
 ```bash
 git clone --depth=1 https://github.com/benfasoli/air-trend /home/pi/air-trend
@@ -251,3 +255,44 @@ To stop the service, run
 docker-compose down
 ```
 
+## Data format
+
+Data is output to daily CSV files with a `time` column prepended to the list of `variables`. Time is stored in the ISO 8601 format in the UTC timezone.
+
+For example, let's specify `config.json` using the first example.
+
+```json
+[
+  {
+    "name": "metone_es642",
+    "baudrate": 9600,
+    "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT0EG25Q-if01-port0",
+    "delimiter": ",",
+    "variables": [
+      { "name": "pm25_mgm3", "save": true },
+      { "name": "flow_lpm", "save": true },
+      { "name": "t_c", "save": true },
+      { "name": "rh_pct", "save": true },
+      { "name": "pres_hpa", "save": true },
+      { "name": "status", "save": true },
+      { "name": "checksum", "save": true }
+    ]
+  }
+]
+```
+
+Using `/home/pi/data` for storage, this creates `/home/pi/data/metone_es642/YYYY-mm-dd.csv` files.
+
+```bash
+> head /home/pi/data/metone_es642/2020-12-01.csv
+time,pm25_mgm3,flow_lpm,t_c,rh_pct,pres_hpa,status,checksum
+2020-12-01T00:00:01.278086,000.015,2.0,+05.4,017,0857.8,00,*01552
+2020-12-01T00:00:02.272085,000.015,2.0,+05.4,017,0857.6,00,*01550
+2020-12-01T00:00:03.278219,000.015,2.0,+05.4,017,0858.0,00,*01545
+2020-12-01T00:00:04.271922,000.015,2.0,+05.4,017,0857.5,00,*01549
+2020-12-01T00:00:05.277756,000.014,2.0,+05.4,017,0857.5,00,*01548
+2020-12-01T00:00:06.271161,000.015,2.0,+05.4,017,0857.8,00,*01552
+2020-12-01T00:00:07.454191,000.015,2.0,+05.4,017,0857.9,00,*01553
+2020-12-01T00:00:09.277855,000.015,2.0,+05.4,017,0857.7,00,*01551
+2020-12-01T00:00:10.270850,000.015,2.0,+05.4,017,0857.7,00,*01551
+```
