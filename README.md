@@ -5,6 +5,7 @@ Declarative data logging supporting parallel serial workloads, poll and stream I
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Starting the service](#starting-the-service)
+- [Data format](#data-format)
 
 ## Installation
 
