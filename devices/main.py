@@ -7,9 +7,11 @@ import logging
 from multiprocessing import Process, Queue
 import os
 import re
-import serial
 import string
 import time
+from typing import Iterator, List, Union
+
+import serial
 
 
 CONFIG = os.getenv('CONFIG', 'config.json')
@@ -112,7 +114,8 @@ class SerialDevice:
         else:
             self.get_data = self._stream
 
-    def _format_response(self, timestamp: datetime, response):
+    def _format_response(self, timestamp: datetime,
+                         response: Union[List[str], str]) -> dict:
         """Formats data record for given timestamp and observation set
 
         Parameters
@@ -167,7 +170,7 @@ class SerialDevice:
 
         return row
 
-    def _poll_batch(self):
+    def _poll_batch(self) -> Iterator[dict]:
         """Polls device for data returned and optionally formatted using regex
 
         Generator that periodically polls device, waiting poll_interval seconds
@@ -192,7 +195,7 @@ class SerialDevice:
             response = response.split(self.delimiter)
             yield self._format_response(timestamp, response)
 
-    def _poll_line(self):
+    def _poll_line(self) -> Iterator[dict]:
         """Polls device for preformatted line observation set
 
         Generator that periodically polls device then blocks until a full line
@@ -214,7 +217,7 @@ class SerialDevice:
             response_parts = response.split(self.delimiter)
             yield self._format_response(timestamp, response_parts)
 
-    def _stream(self):
+    def _stream(self) -> Iterator[dict]:
         """Returns data from serial buffer
 
         Generator that blocks until line is received in device's serial buffer 
@@ -245,6 +248,7 @@ def worker(q: Queue, device_args: dict):
     if not active:
         return None
 
+    dev = None
     name = device_args['name']
     while True:
         try:
@@ -260,11 +264,10 @@ def worker(q: Queue, device_args: dict):
         except BaseException as e:
             logger.exception(e)
             time.sleep(1)
-
-        try:
+        
+        if dev is not None:
             dev.close()
-        except NameError:
-            pass
+            dev = None
 
 
 def writer(q: Queue):
@@ -284,7 +287,7 @@ def writer(q: Queue):
             date = row['time'][0:10]
             path = os.path.join(DATAPATH, name, f'{date}.csv')
             should_write_header = not os.path.exists(path)
-            
+
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, 'a') as f:
                 writer = csv.DictWriter(f, fieldnames=row.keys())

@@ -3,12 +3,17 @@ services:
   devices:
     build: ./devices/
     environment:
+      - CONFIG=/src/config.json
       - DATAPATH=/data
       - LOGLEVEL=WARNING
     privileged: true
     restart: always
     volumes:
-      - ./config.json:/src/config.json:ro
+      - /home/pi/air-trend/config.json:/src/config.json:ro
       - /dev/serial:/dev/serial
       - /home/pi/data:/data
-      
+    logging:
+      driver: json-file
+      options:
+        max-file: 5
+        max-size: 10m
