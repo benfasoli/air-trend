@@ -13,7 +13,7 @@ services:
       - /dev/serial:/dev/serial
       - /home/pi/data:/data
     logging:
-      driver: json-file
+      driver: "json-file"
       options:
-        max-file: 5
-        max-size: 10m
+        max-file: "5"
+        max-size: "10m"
