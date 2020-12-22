@@ -5,7 +5,7 @@ services:
     environment:
       - CONFIG=/src/config.json
       - DATAPATH=/data
-      - LOGLEVEL=WARNING
+      - LOGLEVEL=INFO
     privileged: true
     restart: always
     volumes:

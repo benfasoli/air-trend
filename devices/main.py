@@ -16,7 +16,7 @@ import serial
 
 CONFIG = os.getenv('CONFIG', 'config.json')
 DATAPATH = os.getenv('DATAPATH', 'data')
-LOGLEVEL = os.getenv('LOGLEVEL', 'WARNING')
+LOGLEVEL = os.getenv('LOGLEVEL', 'INFO')
 
 
 logging.basicConfig(level=LOGLEVEL,
@@ -240,16 +240,16 @@ class SerialDevice:
 
 def worker(q: Queue, device_args: dict):
     """Instantiates and indefinitely reads from serial device"""
-    try:
-        active = device_args['active']
-    except KeyError:
-        active = True
-
-    if not active:
+    active = device_args.get('active', True)
+    name = device_args.get('name', None)
+    
+    if active:
+        logger.info(f'Starting device worker: {device_args}')
+    else:
+        logger.info(f'Device {name} currently disabled: {device_args}')
         return None
 
     dev = None
-    name = device_args['name']
     while True:
         try:
             dev = SerialDevice(**device_args)
