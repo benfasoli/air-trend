@@ -1,0 +1,43 @@
+[
+  {
+    "name": "teledyne_t400",
+    "baudrate": 115200,
+    "delimiter": "\n",
+    "filter_response": "(?<==)[^\\s]+",
+    "poll_command": "t list all\r\n",
+    "poll_interval": 2,
+    "poll_type": "batch",
+    "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT0EG25Q-if00-port0",
+    "variables": [
+      { "name": "range_ppb", "save": false },
+      { "name": "range1_ppb", "save": false },
+      { "name": "range2_ppb", "save": false },
+      { "name": "o3_std_ppb", "save": true },
+      { "name": "o3_meas_mv", "save": true },
+      { "name": "o3_ref_mv", "save": true },
+      { "name": "o3_gen_mv", "save": true },
+      { "name": "o3_drive_mv", "save": true },
+      { "name": "photo_power_mv", "save": true },
+      { "name": "samp_pres_inhga", "save": true },
+      { "name": "flow_ccm", "save": true },
+      { "name": "samp_t_c", "save": true },
+      { "name": "photo_lamp_t_c", "save": true },
+      { "name": "o3_scrub_t_c", "save": true },
+      { "name": "o3_gen_t_c", "save": true },
+      { "name": "box_t_c", "save": true },
+      { "name": "slope", "save": true },
+      { "name": "offset", "save": true },
+      { "name": "o3_ppb", "save": true },
+      { "name": "test_mv", "save": true },
+      { "name": "xin1_v", "save": false },
+      { "name": "xin2_v", "save": false },
+      { "name": "xin3_v", "save": false },
+      { "name": "xin4_v", "save": false },
+      { "name": "xin5_v", "save": false },
+      { "name": "xin6_v", "save": false },
+      { "name": "xin7_v", "save": false },
+      { "name": "xin8_v", "save": false },
+      { "name": "inst_time", "save": false }
+    ]
+  }
+]

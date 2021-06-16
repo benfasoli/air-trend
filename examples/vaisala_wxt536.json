@@ -1,0 +1,23 @@
+[
+  {
+    "name": "vaisala_wxt536",
+    "baudrate": 19200,
+    "port": "/dev/serial/by-id/usb-Silicon_Labs_Vaisala_USB_Instrument_Cable_N3710055-if00-port0",
+    "eol_delimiter": "\r\n",
+    "filter_response": "(?<==)-?[0-9.]+",
+    "init_command": "0XU,C=2,I=0,M=P\r\n",
+    "poll_command": "0R0\r\n",
+    "poll_interval": 1,
+    "poll_type": "line",
+    "variables": [
+      { "name": "wind_dir_deg", "save": true },
+      { "name": "wind_spd_ms", "save": true },
+      { "name": "t_c", "save": true },
+      { "name": "rh_pct", "save": true },
+      { "name": "p_hpa", "save": true },
+      { "name": "rain_mm", "save": true },
+      { "name": "heater_t_c", "save": true },
+      { "name": "heater_v", "save": false }
+    ]
+  }
+]

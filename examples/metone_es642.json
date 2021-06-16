@@ -1,0 +1,16 @@
+[
+  {
+    "name": "metone_es642",
+    "baudrate": 9600,
+    "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT0EG25Q-if01-port0",
+    "variables": [
+      { "name": "pm25_mgm3", "save": true },
+      { "name": "flow_lpm", "save": true },
+      { "name": "t_c", "save": true },
+      { "name": "rh_pct", "save": true },
+      { "name": "pres_hpa", "save": true },
+      { "name": "status", "save": true },
+      { "name": "checksum", "save": true }
+    ]
+  }
+]

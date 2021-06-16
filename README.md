@@ -1,6 +1,6 @@
 # Air Trend
 
-Declarative data logging supporting parallel serial workloads, poll and stream I/O via RS232, and REGEX response parsing.
+Minimal declarative data logging which supports parallel serial workloads, poll and stream I/O via RS232, and REGEX response parsing.
 
 - [Installation](#installation)
 - [Configuration](#configuration)
@@ -53,9 +53,13 @@ git clone --depth=1 https://github.com/benfasoli/air-trend /home/pi/air-trend
 
 ## Configuration
 
-The `docker-compose.yml` file defines the path used for storing logged data (defaults to `/home/pi/data/<device_id>`). If you cloned the repository to a location other than `/home/pi/air-trend` or wish to store logged data in a location other than `/home/pi/data`, you'll need to update the volume mount source for the `/home/pi/air-trend/config.json` file and the `/home/pi/data` directory.
+The `docker-compose.yml` file defines the path used for storing logged data (defaults to `/home/pi/data/<device_id>`).
 
-Devices are declared using `config.json` using keys that map to arguments passed to [SerialDevice](./devices/main.py). 
+If you cloned the repository to a location other than `/home/pi/air-trend` or wish to store logged data in a location other than `/home/pi/data`, you'll need to update the volume mount source for the `/home/pi/air-trend/config.json` file and the `/home/pi/data` directory.
+
+Devices are declared using `config.json` using keys that map to arguments passed to [SerialDevice](./devices/main.py). For example configuration blocks, refer to [`examples/`](./examples/).
+
+> You can use [`systemd`](https://systemd.io) to manage daemons if you're more comfortable with `systemd` than docker. `systemd` configuration is out of scope for this documentation but you can reference [`devices/Dockerfile`](devices/Dockerfile) for dependency installation steps and [`docker-compose.yml`](docker-compose.yml) for setting required environment variables.
 
 ### Basic logging
 
@@ -81,7 +85,9 @@ For devices which stream data continuously, you'll need to configure the device 
 ]
 ```
 
-> Responses that do not match the defined `variables` are discarded.
+> Responses that do not match the defined `variables` declaration are discarded.
+
+See [data format](#data-format) for an example of how these data are written to flat files.
 
 ### Filtering responses
 
@@ -90,7 +96,6 @@ Some devices expect a command to be issued over the serial connection prior to r
 The `poll_type` differentiates between the response structure. Using `line` indicates pre-formatted data returned as a single line with variables separated by a delimiter. Using `batch` along with `filter_response` can be used to parse more complex multi-line responses into a machine readable format. The `filter_response` REGEX is applied to each line of the returned response, although you can use another `eol_delimiter` to specify the breaks between the returned variables.
 
 You can also set an `init_command` which is issued a single time when establishing a connection to the device. This can be used for devices which expect to receive configuration details on startup.
-
 
 ```json
 [
@@ -208,7 +213,7 @@ You can also set an `init_command` which is issued a single time when establishi
 
 ### Disabling devices
 
-Each device can be enabled or disabled by setting the `active` configuration key.
+Each device can be enabled or disabled by setting the `is_active` configuration key.
 
 If a device is disabled, it will be ignored until the next time the service is restarted.
 
@@ -216,7 +221,7 @@ If a device is disabled, it will be ignored until the next time the service is r
 [
   {
     "name": "2b_205",
-    "active": false,
+    "is_active": false,
     "baudrate": 4800,
     "delimiter": ",",
     "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT2QWEFA-if02-port0",

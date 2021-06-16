@@ -1,0 +1,26 @@
+[
+  {
+    "name": "gps",
+    "baudrate": 4800,
+    "delimiter": ",",
+    "filter_response": "\\$GPGGA.*$",
+    "port": "/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller_D-if00-port0",
+    "variables": [
+      { "name": "nmea_class", "save": false },
+      { "name": "timestamp", "save": true },
+      { "name": "latitude_dm", "save": true },
+      { "name": "latitude_ns", "save": true },
+      { "name": "longitude_dm", "save": true },
+      { "name": "longitude_ew", "save": true },
+      { "name": "fix_quality", "save": true },
+      { "name": "n_sat", "save": true },
+      { "name": "horizontal_dilution", "save": false },
+      { "name": "altitude_amsl", "save": true },
+      { "name": "altitude_amsl_unit", "save": false },
+      { "name": "geoidal_separation", "save": false },
+      { "name": "time_last_update", "save": false },
+      { "name": "time_last_update_unit", "save": false },
+      { "name": "stid_and_checksum", "save": false }
+    ]
+  }
+]

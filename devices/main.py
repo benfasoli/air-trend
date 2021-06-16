@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import csv
 from datetime import datetime
@@ -14,21 +14,22 @@ from typing import Iterator, List, Union
 import serial
 
 
-CONFIG = os.getenv('CONFIG', 'config.json')
-DATAPATH = os.getenv('DATAPATH', 'data')
-LOGLEVEL = os.getenv('LOGLEVEL', 'INFO')
+CONFIG = os.getenv("CONFIG", "config.json")
+DATAPATH = os.getenv("DATAPATH", "data")
+LOGLEVEL = os.getenv("LOGLEVEL", "INFO")
 
 
-logging.basicConfig(level=LOGLEVEL,
-                    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
+logging.basicConfig(
+    level=LOGLEVEL, format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+)
 logger = logging.getLogger()
 
 
-with open(CONFIG, 'r') as f:
+with open(CONFIG, "r") as f:
     DEVICES = json.load(f)
 
 
-class SerialDevicePoolError(BaseException):
+class SerialDevicePoolError(Exception):
     pass
 
 
@@ -46,7 +47,7 @@ class SerialDevice:
         path to serial device, typically registered at /dev/serial/by-id/<id>
         for unix based systems
     variables : list
-        full list of objects defining the variable set returned in a given 
+        full list of objects defining the variable set returned in a given
         response. The "name" key of each variable object is used to define the
         variable names in order and the "save" key determines whether a given
         field should be written to file
@@ -55,9 +56,9 @@ class SerialDevice:
     delimiter : str
         string used to separate variables in serial response
     eol_delimiter : str
-        string used to indicate the end of a transmitted record
+        string used to indicate the end of a transmitted record (end of line)
     filter_response : str
-        regular expression that is executed against the response string used to 
+        regular expression that is executed against the response string used to
         filter and mutate the result. Response is split  by delimiter and passed
         to re.search
     init_command : str
@@ -68,26 +69,28 @@ class SerialDevice:
         time in seconds to pause between polling device for new data
     poll_type : str or None
         enable polling serial device for new data using associated poll_* args.
-        Can be "line" for pre-formatted line data where variables are separated 
+        Can be "line" for pre-formatted line data where variables are separated
         by delimiter, "batch" for processing more complicated responses with
         filter_response, or None to indicate that streaming method should be used
     timeout : float or int
         number of seconds to wait for record to be returned
     """
 
-    def __init__(self,
-                 name: str,
-                 port: str,
-                 variables: list,
-                 baudrate: int = 9600,
-                 delimiter: str = ',',
-                 eol_delimiter: str = '\r\n',
-                 filter_response: float = None,
-                 init_command: str = None,
-                 poll_command: str = None,
-                 poll_interval: float = 0,
-                 poll_type: float = None,
-                 timeout: float = 60):
+    def __init__(
+        self,
+        name: str,
+        port: str,
+        variables: list,
+        baudrate: int = 9600,
+        delimiter: str = ",",
+        eol_delimiter: str = "\r\n",
+        filter_response: float = None,
+        init_command: str = None,
+        poll_command: str = None,
+        poll_interval: float = 0,
+        poll_type: float = None,
+        timeout: float = 60,
+    ):
         self.logger = logging.getLogger(name)
         self.baudrate = baudrate
         self.delimiter = delimiter
@@ -103,19 +106,20 @@ class SerialDevice:
         self.ser = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
 
         if init_command:
-            self.ser.write(init_command.encode('utf-8'))
+            self.ser.write(init_command.encode("utf-8"))
 
-        if poll_type == 'line':
+        if poll_type == "line":
             self.get_data = self._poll_line
-        elif poll_type == 'batch':
+        elif poll_type == "batch":
             self.get_data = self._poll_batch
         elif poll_type is not None:
-            raise ValueError('poll_type must be line or batch')
+            raise ValueError("poll_type must be line or batch")
         else:
             self.get_data = self._stream
 
-    def _format_response(self, timestamp: datetime,
-                         response: Union[List[str], str]) -> dict:
+    def _format_response(
+        self, timestamp: datetime, response: Union[List[str], str]
+    ) -> dict:
         """Formats data record for given timestamp and observation set
 
         Parameters
@@ -130,7 +134,7 @@ class SerialDevice:
         dict
             observations reformatted as key value pairs
             {
-                'time': datetime.datetime(2020, 4, 29, 20, 33, 2, 11995)), 
+                'time': datetime.datetime(2020, 4, 29, 20, 33, 2, 11995)),
                 'nox_std_ppb': '54.0',
                 ...
             }
@@ -153,20 +157,21 @@ class SerialDevice:
             records = response
 
         record = self.delimiter.join(records)
-        record = ''.join([x for x in record if x in string.printable])
+        record = "".join([x for x in record if x in string.printable])
         self.logger.debug(record)
 
         columns = re.split(self.delimiter, record)
         n_col = len(columns)
         if not n_col == self.n_variables:
-            self.logger.debug((f'Found {n_col} records but '
-                               f'config specifies {self.n_variables}.'))
+            self.logger.debug(
+                (f"Found {n_col} records but " f"config specifies {self.n_variables}.")
+            )
             return None
 
-        row = {'time': timestamp}
+        row = {"time": timestamp}
         for i in range(n_col):
-            if self.variables[i]['save']:
-                row[self.variables[i]['name']] = columns[i]
+            if self.variables[i]["save"]:
+                row[self.variables[i]["name"]] = columns[i]
 
         return row
 
@@ -175,20 +180,20 @@ class SerialDevice:
 
         Generator that periodically polls device, waiting poll_interval seconds
         and then reading all available bytes from the serial buffer. Optionally,
-        filter_response can be used to match and filter the returned data. Yields 
+        filter_response can be used to match and filter the returned data. Yields
         list of dictionary records.
         """
         while True:
-            self.ser.write(self.poll_command.encode('utf-8'))
+            self.ser.write(self.poll_command.encode("utf-8"))
             timestamp = datetime.utcnow()
             time.sleep(self.poll_interval)
 
-            response = b''
+            response = b""
             while self.ser.in_waiting:
                 response = response + self.ser.read()
 
             try:
-                response = response.decode('utf-8')
+                response = response.decode("utf-8")
             except UnicodeDecodeError:
                 continue
 
@@ -203,14 +208,14 @@ class SerialDevice:
         records.
         """
         while True:
-            self.ser.write(self.poll_command.encode('utf-8'))
+            self.ser.write(self.poll_command.encode("utf-8"))
             timestamp = datetime.utcnow()
             time.sleep(self.poll_interval)
 
-            response = self.ser.read_until(self.eol_delimiter.encode('utf-8'))
+            response = self.ser.read_until(self.eol_delimiter.encode("utf-8"))
 
             try:
-                response = response.decode('utf-8')
+                response = response.decode("utf-8")
             except UnicodeDecodeError:
                 continue
 
@@ -220,15 +225,15 @@ class SerialDevice:
     def _stream(self) -> Iterator[dict]:
         """Returns data from serial buffer
 
-        Generator that blocks until line is received in device's serial buffer 
+        Generator that blocks until line is received in device's serial buffer
         and yields list of dictionary records.
         """
         while True:
-            response = self.ser.read_until(self.eol_delimiter.encode('utf-8'))
+            response = self.ser.read_until(self.eol_delimiter.encode("utf-8"))
             timestamp = datetime.utcnow()
 
             try:
-                response = response.decode('utf-8')
+                response = response.decode("utf-8")
             except UnicodeDecodeError:
                 continue
 
@@ -240,34 +245,34 @@ class SerialDevice:
 
 def worker(q: Queue, device_args: dict):
     """Instantiates and indefinitely reads from serial device"""
-    active = device_args.get('active', True)
-    name = device_args.get('name', None)
-    
-    if active:
-        logger.info(f'Starting device worker: {device_args}')
+    is_active = device_args.get("is_active", True)
+    name = device_args.get("name", None)
+
+    if is_active:
+        logger.info(f"Starting device worker: {device_args}")
     else:
-        logger.info(f'Device {name} currently disabled: {device_args}')
+        logger.info(f"Device {name} currently disabled: {device_args}")
         return None
 
-    dev = None
+    device = None
     while True:
         try:
-            dev = SerialDevice(**device_args)
-            for row in dev.get_data():
+            device = SerialDevice(**device_args)
+            for row in device.get_data():
                 if row:
-                    q.put({'name': name, 'row': row})
+                    q.put({"name": name, "row": row})
 
         except (OSError, KeyboardInterrupt, SystemExit) as e:
-            q.put({'service_exit': True})
+            q.put({"service_exit": True})
             raise e
 
         except BaseException as e:
             logger.exception(e)
             time.sleep(1)
-        
-        if dev is not None:
-            dev.close()
-            dev = None
+
+        if device is not None:
+            device.close()
+            device = None
 
 
 def writer(q: Queue):
@@ -277,19 +282,19 @@ def writer(q: Queue):
             data = q.get()
             logger.info(data)
 
-            if data.get('service_exit', False):
-                raise SerialDevicePoolError('Restarting device pool')
+            if data.get("service_exit", False):
+                raise SerialDevicePoolError("Restarting device pool")
 
-            name = data['name']
-            row = data['row']
-            row['time'] = row['time'].isoformat()
+            name = data["name"]
+            row = data["row"]
+            row["time"] = row["time"].isoformat()
 
-            date = row['time'][0:10]
-            path = os.path.join(DATAPATH, name, f'{date}.csv')
+            date = row["time"][0:10]
+            path = os.path.join(DATAPATH, name, f"{date}.csv")
             should_write_header = not os.path.exists(path)
 
             os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, 'a') as f:
+            with open(path, "a") as f:
                 writer = csv.DictWriter(f, fieldnames=row.keys())
                 if should_write_header:
                     writer.writeheader()
@@ -299,17 +304,18 @@ def writer(q: Queue):
             raise
 
 
-if __name__ == '__main__':
+def main():
     q = Queue()
 
     for device_args in DEVICES:
-        p = Process(target=worker, kwargs={
-            'q': q,
-            'device_args': device_args
-        })
+        p = Process(target=worker, kwargs={"q": q, "device_args": device_args})
         p.daemon = True
         p.start()
 
-    p = Process(target=writer, kwargs={'q': q})
+    p = Process(target=writer, kwargs={"q": q})
     p.start()
     p.join()
+
+
+if __name__ == "__main__":
+    main()
