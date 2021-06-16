@@ -226,8 +226,8 @@ If a device is disabled, it will be ignored until the next time the service is r
     "delimiter": ",",
     "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FT2QWEFA-if02-port0",
     "variables": [
-      { "name": "o3_ppb", "save": true, "bounds": [-10, 200] },
-      { "name": "t_c", "save": true, "bounds": [-50, 50] },
+      { "name": "o3_ppb", "save": true },
+      { "name": "t_c", "save": true },
       { "name": "p_hpa", "save": true },
       { "name": "flow_ccpm", "save": true },
       { "name": "inst_date", "save": false },
