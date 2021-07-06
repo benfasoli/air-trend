@@ -253,6 +253,12 @@ You can verify the service is running with
 docker-compose ps
 ```
 
+You can check the logs to confirm data is parsed correctly with
+
+```bash
+docker-compose logs -f
+```
+
 ### Stopping the service
 
 To stop the service, run
