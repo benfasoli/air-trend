@@ -1,0 +1,49 @@
+[
+  {
+    "name": "magic_200p_adi",
+    "baudrate": 115200,
+    "delimiter": ",",
+    "init_command": "ppw,215\r\n",
+    "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FTRWFN3L-if02-port0",
+    "variables": [
+      { "name": "mod_set", "save": true },
+      { "name": "mod_t_c", "save": true },
+      { "name": "input_rh_pct", "save": true },
+      { "name": "input_t_c", "save": true },
+      { "name": "input_td_c", "save": true },
+      { "name": "flow_p_raw", "save": false },
+      { "name": "flow_p_pa", "save": true },
+      { "name": "flow_ccmm", "save": true }
+    ]
+  },
+  {
+    "name": "magic_200p_tsi",
+    "baudrate": 115200,
+    "delimiter": ",",
+    "eol_delimiter": "\r",
+    "init_command": "SL,1\r\nSM,3,10\r\n",
+    "port": "/dev/serial/by-id/usb-UTEK_USB__-__Serial_Cable_FTRWFN3L-if01-port0",
+    "variables": [
+      { "name": "line_type", "save": false },
+      { "name": "inst_date", "save": false },
+      { "name": "inst_time", "save": false },
+      { "name": "status_flag", "save": true },
+      { "name": "particle_count_nccm", "save": true, "bounds": [10, null] },
+      { "name": "accum_particle_count_n", "save": false },
+      { "name": "unknown", "save": false },
+      { "name": "unknown", "save": false },
+      { "name": "pulse_height_mv", "save": false },
+      { "name": "pulse_height_sd_mv", "save": false },
+      { "name": "unknown", "save": false },
+      { "name": "unknown", "save": false },
+      { "name": "unknown", "save": false },
+      { "name": "unknown", "save": false },
+      { "name": "status_record_id", "save": false },
+      { "name": "conditioner_t_c", "save": true },
+      { "name": "initiator_t_c", "save": true },
+      { "name": "optic_t_c", "save": true },
+      { "name": "water_seperator_t_c", "save": false },
+      { "name": "case_t_c", "save": false }
+    ]
+  }
+]
